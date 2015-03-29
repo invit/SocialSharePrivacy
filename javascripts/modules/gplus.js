@@ -19,8 +19,6 @@
 	$.fn.socialSharePrivacy.settings.services.gplus = {
 		'status'            : true,
 		'button_class'      : 'gplusone',
-		'dummy_line_img'    : 'images/dummy_gplus.png',
-		'dummy_box_img'     : 'images/dummy_box_gplus.png',
 		'dummy_alt'         : '"Google+1"-Dummy',
 		'txt_info'          : 'Two clicks for more privacy: The Google+ button will be enabled once you click here. Activating the button already sends data to Google &ndash; see <em>i</em>.',
 		'txt_off'           : 'not connected to Google+',

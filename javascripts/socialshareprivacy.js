@@ -302,7 +302,7 @@
 			if ($switch.hasClass('off')) {
 				$container.addClass('info_off');
 				$switch.addClass('on').removeClass('off').html(service.txt_on||'\u00a0');
-				$container.find('img.privacy_dummy').replaceWith(
+				$container.find('div.privacy_dummy').replaceWith(
 					typeof(service.button) === "function" ?
 					service.button.call($container.parent().parent()[0],service,uri,options) :
 					service.button);
@@ -311,12 +311,7 @@
 				$container.removeClass('info_off');
 				$switch.addClass('off').removeClass('on').html(service.txt_off||'\u00a0');
 				$container.find('.dummy_btn').empty().
-					append($('<img/>').addClass(button_class+'_privacy_dummy privacy_dummy').
-						attr({
-							alt: service.dummy_alt,
-							src: service.path_prefix + (options.layout === 'line' ?
-								service.dummy_line_img : service.dummy_box_img)
-						}).click(onclick));
+					append($('<div/>').addClass(button_class+'_privacy_dummy privacy_dummy').click(onclick));
 				$share.trigger({type: 'socialshareprivacy:disable', serviceName: service_name, isClick: !event.isTrigger});
 			}
 		};
@@ -593,7 +588,6 @@
 			var this_options = $.extend(true,{},socialSharePrivacy.settings,options,data);
 			var order = this_options.order || [];
 
-			var dummy_img  = this_options.layout === 'line' ? 'dummy_line_img' : 'dummy_box_img';
 			var any_on     = false;
 			var any_perm   = false;
 			var any_unsafe = false;
@@ -628,17 +622,6 @@
 			// check if at least one service is activated
 			if (!any_on) {
 				return;
-			}
-
-			// insert stylesheet into document and prepend target element
-			if (this_options.css_path) {
-				var css_path = (this_options.path_prefix||"") + this_options.css_path;
-				// IE fix (needed for IE < 9 - but done for all IE versions)
-				if (document.createStyleSheet) {
-					document.createStyleSheet(css_path);
-				} else if ($('link[href="'+css_path+'"]').length === 0) {
-					$('<link/>',{rel:'stylesheet',type:'text/css',href:css_path}).appendTo(document.head);
-				}
 			}
 
 			// get stored perma options
@@ -688,13 +671,9 @@
 							'</span><div class="dummy_btn"></div></li>').addClass(class_name);
 						$help_info.find('.dummy_btn').
 							addClass(button_class).
-							append($('<img/>').addClass(button_class+'_privacy_dummy privacy_dummy').
-								attr({
-									alt: service.dummy_alt,
-									src: service.path_prefix + service[dummy_img]
-								}));
+							append($('<div/>').addClass(button_class+'_privacy_dummy privacy_dummy'));
 					
-						$help_info.find('.dummy_btn img.privacy_dummy, span.switch').click(
+						$help_info.find('.dummy_btn div.privacy_dummy, span.switch').click(
 							buttonClickHandler(service_name));
 					}
 					$context.append($help_info);
@@ -793,7 +772,6 @@
 		'cookie_domain'     : document.location.hostname,
 		'cookie_expires'    : 365,
 		'path_prefix'       : '',
-		'css_path'          : "stylesheets/socialshareprivacy.css",
 		'uri'               : getURI,
 		'language'          : 'en',
 		'ignore_fragment'   : true
